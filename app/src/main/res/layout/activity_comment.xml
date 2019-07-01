@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.CommentActivity"
+    android:orientation="vertical">
+
+    <ViewFlipper
+        android:id="@+id/view_flipper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin20"
+            android:indeterminateDrawable="@drawable/custom_progress_bar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin20"
+            android:text="No data!"
+            android:textColor="@color/red"
+            android:textSize="@dimen/font15" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_cmt"
+            android:layout_marginBottom="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </ViewFlipper>
+
+        <LinearLayout
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:paddingTop="@dimen/margin5"
+            android:gravity="center">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_ava"
+                android:layout_width="0dp"
+                android:layout_weight="1.2"
+                android:layout_height="60dp"
+                android:layout_marginStart="@dimen/margin10"
+                android:src="@drawable/backgr"
+                app:civ_border_color="@color/black"
+                app:civ_border_width="0.5dp"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <EditText
+                android:id="@+id/edt_comment"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/margin40"
+                android:layout_weight="7"
+                android:background="@drawable/custom_edittext_boder"
+                android:layout_margin="@dimen/margin15"
+                android:paddingStart="@dimen/margin15"
+                android:paddingEnd="@dimen/margin15"
+                android:hint="Enter comment"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font17"
+                android:textStyle="italic"/>
+
+            <ImageView
+                android:id="@+id/iv_send"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_send"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/margin10"/>
+        </LinearLayout>
+
+</RelativeLayout>

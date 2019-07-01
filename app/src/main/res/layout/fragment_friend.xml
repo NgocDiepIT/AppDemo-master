@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.FriendFragment"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/margin15">
+
+        <ViewFlipper
+            android:id="@+id/view_flipper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin20"
+                android:indeterminateDrawable="@drawable/custom_progress_bar" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin20"
+                android:text="No data!"
+                android:textColor="@color/red"
+                android:textSize="@dimen/font15" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin20"
+                android:text="No Internet!"
+                android:textColor="@color/red"
+                android:textSize="@dimen/font15" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_list_friend"
+                    android:layout_marginBottom="60dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+        </ViewFlipper>
+
+    </ScrollView>
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:background="@color/white"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_marginBottom="48dp">-->
+
+        <!--<Button-->
+            <!--android:id="@+id/btn_logout"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:background="@drawable/custom_btn_logout"-->
+            <!--android:text="Log Out"-->
+            <!--android:textAllCaps="false"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="@dimen/font15"-->
+            <!--android:textStyle="bold" />-->
+
+    <!--</RelativeLayout>-->
+
+</RelativeLayout>

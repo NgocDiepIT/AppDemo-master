@@ -1,15 +1,18 @@
 package com.example.appdemo.fragment;
 
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +34,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.appdemo.R;
 import com.example.appdemo.activity.AuthenActivity;
 import com.example.appdemo.activity.CommentActivity;
-import com.example.appdemo.adapter.StatusProfileAdapter;
+import com.example.appdemo.adapter.StatusAdapter;
 import com.example.appdemo.common.EditStatusDialog;
 import com.example.appdemo.dbcontext.RealmContext;
 import com.example.appdemo.interf.OnItemStatusClickListener;
@@ -64,16 +67,19 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
     final int MODE_RECYCLEVIEW = 2;
     ArrayList<Status> statusArrayList;
     RecyclerView recyclerView;
-    StatusProfileAdapter statusProfileAdapter;
-    ImageView ivAva, newfeedAva;
+
+    StatusAdapter statusAdapter;
+    ImageView ivAva, newfeedAva, ivCamera;
     Status currentStatus;
     TextView tvMenu;
     LinearLayout itemAddress, itemPhone;
+    String[] listPermissions = null;
+    public static final int REQUEST_PERMISSION_CODE = 1;
+    public static final int REQUEST_GET_IMAGE_CODE = 2;
 
     public ProfileFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -118,15 +124,9 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
             @Override
             public void onClick(View v) {
                 String loc = tvAddress.getText().toString();
-// Parse the location and create the intent.
                 Uri addressUri = Uri.parse("geo:0,0?q=" + loc);
                 Intent intent = new Intent(Intent.ACTION_VIEW, addressUri);
-// Find an activity to handle the intent, and start that activity.
-//                if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
-//                } else {
-//                    Log.d("ImplicitIntents", "Can't handle this intent!");
-//                }
             }
         });
 
@@ -134,12 +134,65 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
             @Override
             public void onClick(View v) {
                 String tel = tvPhone.getText().toString();
-                if(!TextUtils.isEmpty(tel)) {
+                if (!TextUtils.isEmpty(tel)) {
                     String dial = "tel:" + tel;
                     startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(dial)));
                 }
             }
         });
+
+        ivCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ensurePermission();
+            }
+        });
+    }
+
+    private void ensurePermission(){
+        listPermissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        if(checkPermission(getActivity(), listPermissions)){
+            openGallery();
+        }else {
+            requestPermissions(listPermissions, REQUEST_PERMISSION_CODE);
+        }
+    }
+
+    private boolean checkPermission(Context context, String[] listPermission) {
+        if (context != null && listPermission != null) {
+            for (String permission : listPermission) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == REQUEST_PERMISSION_CODE){
+            if(checkPermission(getActivity(), listPermissions)){
+                openGallery();
+            }
+        } else{
+            Utils.showToast(getActivity(), "Request is denied!");
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Uri uri = data.getData();
+        ivAva.setImageURI(uri);
+    }
+
+    private void openGallery(){
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_PERMISSION_CODE);
     }
 
     private void gotoLogin() {
@@ -163,10 +216,12 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
         tvMenu = view.findViewById(R.id.tv_menu);
         itemAddress = view.findViewById(R.id.item_address);
         itemPhone = view.findViewById(R.id.item_phone);
+        ivCamera = view.findViewById(R.id.iv_camera);
 
         statusArrayList = new ArrayList<>();
-        statusProfileAdapter = new StatusProfileAdapter(statusArrayList, this);
-        recyclerView.setAdapter(statusProfileAdapter);
+
+        statusAdapter = new StatusAdapter(this, statusArrayList);
+        recyclerView.setAdapter(statusAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -188,7 +243,8 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
                     if (statuses != null) {
                         statusArrayList.clear();
                         statusArrayList.addAll(statuses);
-                        statusProfileAdapter.notifyDataSetChanged();
+//                        statusProfileAdapter.notifyDataSetChanged();\
+                        statusAdapter.notifyDataSetChanged();
                         viewFlipper.setDisplayedChild(MODE_RECYCLEVIEW);
                     } else {
                         viewFlipper.setDisplayedChild(MODE_NODATA);
@@ -246,7 +302,8 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
                     } else {
                         status.setNumberLike(status.getNumberLike() - 1);
                     }
-                    statusProfileAdapter.notifyDataSetChanged();
+//                    statusProfileAdapter.notifyDataSetChanged();
+                    statusAdapter.notifyDataSetChanged();
                 } else {
                     Utils.showToast(getActivity(), "Fail!");
                 }
@@ -262,7 +319,6 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
     @Override
     public void onCommentClick(Status status) {
         Intent intent = new Intent(getActivity(), CommentActivity.class);
-//        Log.d("bkhub", status.getPostId());
         intent.putExtra("GetPostId", status.getPostId());
         intent.putExtra("GetUserId", userInfor.getUserId());
         startActivity(intent);
@@ -299,7 +355,8 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200) {
                     statusArrayList.remove(status);
-                    statusProfileAdapter.notifyDataSetChanged();
+//                    statusProfileAdapter.notifyDataSetChanged();
+                    statusAdapter.notifyDataSetChanged();
                     Utils.showToast(getContext(), "Done!");
                 } else Utils.showToast(getContext(), "Fail!");
             }
@@ -325,7 +382,8 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
                 Status res = response.body();
                 if (response.code() == 200 && res != null) {
                     currentStatus.setContent(res.getContent());
-                    statusProfileAdapter.notifyDataSetChanged();
+//                    statusProfileAdapter.notifyDataSetChanged();
+                    statusAdapter.notifyDataSetChanged();
                     Utils.showToast(getActivity(), "Done!");
                 } else Utils.showToast(getActivity(), "Fail!");
             }

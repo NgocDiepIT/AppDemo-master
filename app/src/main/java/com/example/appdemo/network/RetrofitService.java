@@ -51,7 +51,7 @@ public interface RetrofitService {
 
     @GET(APIStringRoot.GET_ALL_FRIEND)
 //    @Headers({APIStringRoot.HEADER})
-    Call<ArrayList<Friend>> getAllFriend(@Query("userId") String userId);
+    Call<ArrayList<UserInfor>> getAllFriend(@Query("userId") String userId);
 
     @PUT(APIStringRoot.UPDATE_STATUS)
     @Headers({APIStringRoot.HEADER})

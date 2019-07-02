@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.ProfileFragment">
+    tools:context=".activity.ProfileFriendActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,41 +19,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp" />
 
-            <TextView
-                android:id="@+id/tv_menu"
-                android:layout_width="@dimen/margin30"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/margin10"
-                android:layout_below="@+id/slider"
-                android:gravity="center"
-                android:text="&#8942;"
-                android:textSize="@dimen/font20" />
+            <!--<TextView-->
+                <!--android:id="@+id/tv_menu"-->
+                <!--android:layout_width="@dimen/margin30"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_marginTop="@dimen/margin10"-->
+                <!--android:layout_below="@+id/slider"-->
+                <!--android:gravity="center"-->
+                <!--android:text="&#8942;"-->
+                <!--android:textSize="@dimen/font20" />-->
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_ava"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
                 android:layout_below="@+id/slider"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="-100dp"
+                android:layout_marginTop="-85dp"
                 android:src="@drawable/backgr"
                 app:civ_border_color="@color/white"
-                app:civ_border_width="4dp" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_camera"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/iv_ava"
-                android:layout_marginTop="-45dp"
-                android:layout_toEndOf="@+id/iv_ava"
-                android:layout_marginStart="-55dp"
-                android:background="@drawable/custom_backgr_circle"
-                android:src="@drawable/icon_cam"
-                app:civ_border_color="@color/white"
-                app:civ_border_width="1.5dp"
-                />
+                app:civ_border_width="3dp" />
 
             <TextView
                 android:id="@+id/tv_username"
@@ -158,40 +144,40 @@
                 android:layout_below="@+id/view1"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="horizontal">-->
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/newfeeds_ava"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_margin="@dimen/margin10"
-                        android:layout_marginTop="20dp"
-                        android:src="@drawable/backgr" />
+                    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+                        <!--android:id="@+id/newfeeds_ava"-->
+                        <!--android:layout_width="70dp"-->
+                        <!--android:layout_height="70dp"-->
+                        <!--android:layout_margin="@dimen/margin10"-->
+                        <!--android:layout_marginTop="20dp"-->
+                        <!--android:src="@drawable/backgr" />-->
 
-                    <TextView
-                        android:id="@+id/tv_post"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="@dimen/margin20"
-                        android:background="@drawable/custom_edittext"
-                        android:paddingStart="@dimen/margin15"
-                        android:paddingEnd="@dimen/margin15"
-                        android:text="@string/what_do_you_think"
-                        android:textSize="@dimen/font20"
-                        android:gravity="center_vertical"/>
-                </LinearLayout>
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_post"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="60dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:layout_marginEnd="@dimen/margin20"-->
+                        <!--android:background="@drawable/custom_edittext"-->
+                        <!--android:paddingStart="@dimen/margin15"-->
+                        <!--android:paddingEnd="@dimen/margin15"-->
+                        <!--android:text="@string/what_do_you_think"-->
+                        <!--android:textSize="@dimen/font20"-->
+                        <!--android:gravity="center_vertical"/>-->
+                <!--</LinearLayout>-->
 
-                <View
-                    android:id="@+id/view2"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin5"
-                    android:layout_below="@+id/linear"
-                    android:layout_marginTop="@dimen/margin15"
-                    android:background="@color/greylite2" />
+                <!--<View-->
+                    <!--android:id="@+id/view2"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/margin5"-->
+                    <!--android:layout_below="@+id/linear"-->
+                    <!--android:layout_marginTop="@dimen/margin15"-->
+                    <!--android:background="@color/greylite2" />-->
 
                 <ViewFlipper
                     android:id="@+id/flipper_status"
@@ -228,5 +214,6 @@
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
+
 
 </RelativeLayout>

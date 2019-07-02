@@ -3,7 +3,8 @@
     package="com.example.appdemo">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".utils.MyApplication"
@@ -13,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.CommentActivity"></activity>
+        <activity android:name=".activity.ProfileFriendActivity"></activity>
+        <activity android:name=".activity.CommentActivity" />
         <activity android:name=".activity.HomeActivity" />
         <activity android:name=".activity.AuthenActivity">
             <intent-filter>

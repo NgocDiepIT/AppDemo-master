@@ -17,8 +17,10 @@ import android.widget.ViewFlipper;
 
 import com.example.appdemo.R;
 import com.example.appdemo.activity.AuthenActivity;
+import com.example.appdemo.activity.ProfileFriendActivity;
 import com.example.appdemo.adapter.FriendAdapter;
 import com.example.appdemo.dbcontext.RealmContext;
+import com.example.appdemo.interf.OnItemFriendClickListener;
 import com.example.appdemo.json_models.response.Friend;
 import com.example.appdemo.json_models.response.UserInfor;
 import com.example.appdemo.network.APIStringRoot;
@@ -31,12 +33,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FriendFragment extends Fragment {
+public class FriendFragment extends Fragment implements OnItemFriendClickListener {
     ViewFlipper viewFlipper;
     RecyclerView recyclerView;
     UserInfor user;
 
-    ArrayList<Friend> friendList;
+    ArrayList<UserInfor> friendList;
     FriendAdapter friendAdapter;
     RetrofitService retrofitService;
 //    Button btnLogOut;
@@ -66,14 +68,11 @@ public class FriendFragment extends Fragment {
     }
 
     private void getAllFriend() {
-        retrofitService.getAllFriend(user.getUserId()).enqueue(new Callback<ArrayList<Friend>>() {
+        retrofitService.getAllFriend(user.getUserId()).enqueue(new Callback<ArrayList<UserInfor>>() {
             @Override
-            public void onResponse(Call<ArrayList<Friend>> call, Response<ArrayList<Friend>> response) {
-
-                ArrayList<Friend> friends = response.body();
-
+            public void onResponse(Call<ArrayList<UserInfor>> call, Response<ArrayList<UserInfor>> response) {
+                ArrayList<UserInfor> friends = response.body();
                 if (response.code() == CODE_OK && friends != null && !friends.isEmpty()) {
-
                     friendList.clear();
                     friendList.addAll(friends);
                     friendAdapter.notifyDataSetChanged();
@@ -85,7 +84,7 @@ public class FriendFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Friend>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<UserInfor>> call, Throwable t) {
 
                 viewFlipper.setDisplayedChild(MODE_NO_INTERNET);
             }
@@ -115,10 +114,19 @@ public class FriendFragment extends Fragment {
         retrofitService = RetrofitUtils.getInstance().createService(RetrofitService.class);
         user = RealmContext.getInstance().getUser();
         friendList = new ArrayList<>();
-        friendAdapter = new FriendAdapter(friendList);
+        friendAdapter = new FriendAdapter(friendList, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(friendAdapter);
 //        btnLogOut = view.findViewById(R.id.btn_logout);
+    }
+
+    @Override
+    public void viewProfileFriend(UserInfor userInfor) {
+        Intent intent = new Intent(getActivity(), ProfileFriendActivity.class);
+        intent.putExtra("GetUserId", userInfor.getUserId());
+        intent.putExtra("GetUsername", userInfor.getUsername());
+        intent.putExtra("GetAvatarUrl", userInfor.getAvatar());
+        startActivity(intent);
     }
 }

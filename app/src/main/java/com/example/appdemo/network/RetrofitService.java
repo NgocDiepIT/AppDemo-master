@@ -6,6 +6,7 @@ import com.example.appdemo.json_models.request.LikeStatusSendForm;
 import com.example.appdemo.json_models.request.LoginSendForm;
 import com.example.appdemo.json_models.request.RegisterSendForm;
 import com.example.appdemo.json_models.request.UpdateStatusSendForm;
+import com.example.appdemo.json_models.response.Avatar;
 import com.example.appdemo.json_models.response.Comment;
 import com.example.appdemo.json_models.response.CommentCreate;
 import com.example.appdemo.json_models.response.Friend;
@@ -70,4 +71,8 @@ public interface RetrofitService {
     @POST(APIStringRoot.CREATE_COMMENT)
     @Headers({APIStringRoot.HEADER})
     Call<CommentCreate> commentStatus(@Body CommentStatusSendForm sendForm);
+
+    @PUT(APIStringRoot.UPDATE_AVATAR)
+    @Headers({APIStringRoot.HEADER})
+    Call<Avatar> updateAvatar(@Query("userId") String userId, @Body Avatar avatar);
 }

@@ -92,9 +92,6 @@ public class ProfileFriendActivity extends AppCompatActivity implements OnItemSt
         userId = intent.getStringExtra("GetUserId");
         username = intent.getStringExtra("GetUsername");
         avatarUrl = intent.getStringExtra("GetAvatarUrl");
-        Log.d("bkhub", userId);
-        Log.d("bkhub", username);
-        Log.d("bkhub", avatarUrl);
 
         retrofitService = RetrofitUtils.getInstance().createService(RetrofitService.class);
         sliderLayout = findViewById(R.id.slider);
@@ -186,7 +183,6 @@ public class ProfileFriendActivity extends AppCompatActivity implements OnItemSt
                     } else {
                         status.setNumberLike(status.getNumberLike() - 1);
                     }
-//                    statusProfileAdapter.notifyDataSetChanged();
                     statusAdapter.notifyDataSetChanged();
                 } else {
                     Utils.showToast(ProfileFriendActivity.this, "Fail!");
@@ -200,15 +196,14 @@ public class ProfileFriendActivity extends AppCompatActivity implements OnItemSt
         });
     }
 
+
     @Override
     public void onLikeClick(Status status) {
-        Log.d("bkhub", "Liked!");
         likePost(status);
     }
 
     @Override
     public void onCommentClick(Status status) {
-        Log.d("bkhub", "Commented!");
         Intent intent = new Intent(ProfileFriendActivity.this, CommentActivity.class);
         intent.putExtra("GetPostId", status.getPostId());
         intent.putExtra("GetUserId", userInfor.getUserId());

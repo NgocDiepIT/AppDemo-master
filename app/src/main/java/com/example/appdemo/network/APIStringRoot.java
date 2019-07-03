@@ -27,4 +27,6 @@ public class APIStringRoot {
     static final String GET_PROFILE = "/api/user/get-detail";
 
     static final String CREATE_COMMENT = "/api/post/comment";
+
+    static final String UPDATE_AVATAR = "/api/user/update-avatar";
 }

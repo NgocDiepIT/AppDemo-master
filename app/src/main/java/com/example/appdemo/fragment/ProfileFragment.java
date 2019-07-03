@@ -17,12 +17,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.storage.StorageManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -39,8 +41,10 @@ import com.example.appdemo.common.EditStatusDialog;
 import com.example.appdemo.dbcontext.RealmContext;
 import com.example.appdemo.interf.OnItemStatusClickListener;
 import com.example.appdemo.interf.OnUpdateDialogListener;
+import com.example.appdemo.json_models.request.CreateStatusSendForm;
 import com.example.appdemo.json_models.request.LikeStatusSendForm;
 import com.example.appdemo.json_models.request.UpdateStatusSendForm;
+import com.example.appdemo.json_models.response.Avatar;
 import com.example.appdemo.json_models.response.ProfileUser;
 import com.example.appdemo.json_models.response.Status;
 import com.example.appdemo.json_models.response.UserInfor;
@@ -50,9 +54,16 @@ import com.example.appdemo.utils.Utils;
 import com.glide.slider.library.SliderLayout;
 import com.glide.slider.library.SliderTypes.DefaultSliderView;
 import com.glide.slider.library.SliderTypes.TextSliderView;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,13 +78,16 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
     final int MODE_RECYCLEVIEW = 2;
     ArrayList<Status> statusArrayList;
     RecyclerView recyclerView;
+    private StorageReference storageReference;
 
     StatusAdapter statusAdapter;
     ImageView ivAva, newfeedAva, ivCamera;
+    CircleImageView dialogAvatar;
     Status currentStatus;
-    TextView tvMenu;
+    TextView tvMenu, tvPost;
     LinearLayout itemAddress, itemPhone;
     String[] listPermissions = null;
+    EditText edtPost;
     public static final int REQUEST_PERMISSION_CODE = 1;
     public static final int REQUEST_GET_IMAGE_CODE = 2;
 
@@ -98,6 +112,36 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
     }
 
     private void addListener() {
+        tvPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.layout_dialog_post, null);
+                builder.setView(dialogView);
+                builder.setCancelable(false);
+
+                dialogAvatar = dialogView.findViewById(R.id.dialog_ava);
+                edtPost = dialogView.findViewById(R.id.edt_post);
+
+                builder.setPositiveButton("Cancel", null);
+
+                builder.setNegativeButton("Post", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String content = edtPost.getText().toString();
+                        if (content.isEmpty()) {
+                            Utils.showToast(getActivity(), "You didn't input content to post!");
+                        } else {
+                            createPost(content);
+                        }
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
         tvMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,6 +193,29 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
         });
     }
 
+    private void createPost(String content) {
+        CreateStatusSendForm sendForm = new CreateStatusSendForm(userInfor.getUserId(), content);
+        retrofitService.createPost(sendForm).enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                Status status = response.body();
+                if (response.code() == 200 && status != null) {
+                    statusArrayList.add(0, status);
+                    statusAdapter.notifyDataSetChanged();
+                    edtPost.setText("");
+                } else {
+                    Utils.showToast(getActivity(), "Post fail!");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+
+                Utils.showToast(getActivity(), "No internet!");
+            }
+        });
+    }
+
     private void ensurePermission(){
         listPermissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
         if(checkPermission(getActivity(), listPermissions)){
@@ -172,7 +239,7 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == REQUEST_PERMISSION_CODE){
+        if(requestCode == REQUEST_GET_IMAGE_CODE){
             if(checkPermission(getActivity(), listPermissions)){
                 openGallery();
             }
@@ -186,6 +253,51 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
         super.onActivityResult(requestCode, resultCode, data);
         Uri uri = data.getData();
         ivAva.setImageURI(uri);
+        uploadImage(uri);
+    }
+
+    private void uploadImage(Uri uri) {
+        StorageReference reference = storageReference.child("avatar/" + uri.getLastPathSegment());
+        UploadTask uploadTask = reference.putFile(uri);
+
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                return reference.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if(task.isSuccessful()){
+                    Utils.showToast(getActivity(), "Upload successfully!");
+//                    Log.d("bkhub", task.getResult().toString());
+
+                    updateAvatar(task.getResult().toString());
+                } else {
+                    Utils.showToast(getActivity(), "Upload fail!");
+                }
+            }
+        });
+    }
+
+    private void updateAvatar(String avatarUrl){
+        Avatar avatarSend = new Avatar(avatarUrl);
+        retrofitService.updateAvatar(userInfor.getUserId(), avatarSend).enqueue(new Callback<Avatar>() {
+            @Override
+            public void onResponse(Call<Avatar> call, Response<Avatar> response) {
+                Avatar avatarRes = response.body();
+                if(response.code() == 200 && avatarRes != null){
+                    userInfor.setAvatar(avatarRes.getAvatarUrl());
+                } else {
+                    Utils.showToast(getActivity(), "This is fail while getting image!");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Avatar> call, Throwable t) {
+                Utils.showToast(getActivity(), "No Internet!");
+            }
+        });
     }
 
     private void openGallery(){
@@ -204,6 +316,7 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
     private void init(View view) {
         userInfor = RealmContext.getInstance().getUser();
         retrofitService = RetrofitUtils.getInstance().createService(RetrofitService.class);
+        tvPost = view.findViewById(R.id.tv_post);
         sliderLayout = view.findViewById(R.id.slider);
         tvUsername = view.findViewById(R.id.tv_username);
         tvAddress = view.findViewById(R.id.tv_address);
@@ -217,6 +330,7 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
         itemAddress = view.findViewById(R.id.item_address);
         itemPhone = view.findViewById(R.id.item_phone);
         ivCamera = view.findViewById(R.id.iv_camera);
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         statusArrayList = new ArrayList<>();
 
@@ -287,6 +401,7 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
 
     @Override
     public void onLikeClick(Status status) {
+        Log.d("bkhub", "Liked PROFILEFRAGMENT");
         likePost(status);
     }
 

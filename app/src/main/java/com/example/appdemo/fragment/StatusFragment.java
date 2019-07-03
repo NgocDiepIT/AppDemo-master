@@ -116,12 +116,7 @@ public class StatusFragment extends Fragment implements OnItemStatusClickListene
                 dialogAvatar = dialogView.findViewById(R.id.dialog_ava);
                 edtPost = dialogView.findViewById(R.id.edt_post);
 
-                builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
+                builder.setPositiveButton("Cancel", null);
                 builder.setNegativeButton("Post", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

@@ -43,7 +43,7 @@ public class FriendFragment extends Fragment implements OnItemFriendClickListene
     RetrofitService retrofitService;
 //    Button btnLogOut;
     final int CODE_OK = 200;
-    final int MODE_PROGRESS_BAR = 0;
+
     final int MODE_NO_DATA = 1;
     final int MODE_NO_INTERNET = 2;
     final int MODE_RECYCLEVIEW = 3;
@@ -63,7 +63,6 @@ public class FriendFragment extends Fragment implements OnItemFriendClickListene
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init(view);
-        addListener();
         getAllFriend();
     }
 
@@ -92,22 +91,6 @@ public class FriendFragment extends Fragment implements OnItemFriendClickListene
 
     }
 
-    private void addListener() {
-//        btnLogOut.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                RealmContext.getInstance().deleteAllUser();
-//                gotoLogin();
-//            }
-//        });
-    }
-
-//    private void gotoLogin() {
-//        Intent intent = new Intent(getActivity(), AuthenActivity.class);
-//        startActivity(intent);
-//        getActivity().finish();
-//    }
-
     private void init(View view) {
         viewFlipper = view.findViewById(R.id.view_flipper);
         recyclerView = view.findViewById(R.id.rv_list_friend);
@@ -118,7 +101,6 @@ public class FriendFragment extends Fragment implements OnItemFriendClickListene
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(friendAdapter);
-//        btnLogOut = view.findViewById(R.id.btn_logout);
     }
 
     @Override

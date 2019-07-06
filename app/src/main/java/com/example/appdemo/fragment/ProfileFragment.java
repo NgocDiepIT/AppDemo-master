@@ -104,9 +104,6 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
         init(view);
         addListener();
 
-        Glide.with(getActivity()).load(userInfor.getAvatar()).into(ivAva);
-        Glide.with(getActivity()).load(userInfor.getAvatar()).into(newfeedAva);
-
         getProfile(userInfor.getUsername(), userInfor.getUserId());
         return view;
     }
@@ -287,7 +284,8 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
             public void onResponse(Call<Avatar> call, Response<Avatar> response) {
                 Avatar avatarRes = response.body();
                 if(response.code() == 200 && avatarRes != null){
-                    userInfor.setAvatar(avatarRes.getAvatarUrl());
+
+                    RealmContext.getInstance().updateInfor(avatarRes.getAvatarUrl());
                 } else {
                     Utils.showToast(getActivity(), "This is fail while getting image!");
                 }
@@ -352,6 +350,8 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
                     tvAddress.setText(profileUser.getAddress());
                     tvDoB.setText(profileUser.getBirthday());
                     tvPhone.setText(profileUser.getPhone());
+                    Glide.with(getActivity()).load(userInfor.getAvatar()).into(ivAva);
+                    Glide.with(getActivity()).load(userInfor.getAvatar()).into(newfeedAva);
 
                     ArrayList<Status> statuses = profileUser.getPostList();
                     if (statuses != null) {
@@ -401,7 +401,7 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
 
     @Override
     public void onLikeClick(Status status) {
-        Log.d("bkhub", "Liked PROFILEFRAGMENT");
+//        Log.d("bkhub", "Liked PROFILEFRAGMENT");
         likePost(status);
     }
 

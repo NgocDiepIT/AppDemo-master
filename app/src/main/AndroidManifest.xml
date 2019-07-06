@@ -4,7 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".utils.MyApplication"
@@ -14,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ProfileFriendActivity"></activity>
+        <activity android:name=".activity.MessageByGroup"></activity>
+        <activity android:name=".activity.AddConservationActivity" />
+        <activity android:name=".activity.ProfileFriendActivity" />
         <activity android:name=".activity.CommentActivity" />
         <activity android:name=".activity.HomeActivity" />
         <activity android:name=".activity.AuthenActivity">

@@ -18,21 +18,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="Băng Ngọc"
+        android:text="Username"
         android:paddingLeft="@dimen/margin10"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         />
-
-    <!--<TextView-->
-    <!--android:id="@+id/tv_mine"-->
-    <!--android:visibility="visible"-->
-    <!--android:layout_below="@id/tv_full_name"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="Xem trang cá nhân của bạn"-->
-    <!--android:textColor="@color/grey"-->
-    <!--android:textSize="14sp"/>-->
 
 </LinearLayout>

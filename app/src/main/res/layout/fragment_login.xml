@@ -38,7 +38,8 @@
             android:paddingStart="@dimen/margin15"
             android:paddingEnd="@dimen/margin15"
             android:textColor="@color/black"
-            android:textSize="@dimen/font20" />
+            android:textSize="@dimen/font20"
+            android:maxLines="1"/>
 
         <EditText
             android:id="@+id/edtPass"
@@ -53,7 +54,8 @@
             android:paddingStart="@dimen/margin15"
             android:paddingEnd="@dimen/margin15"
             android:textColor="@color/black"
-            android:textSize="@dimen/font20" />
+            android:textSize="@dimen/font20"
+            android:maxLines="1"/>
 
         <ViewFlipper
             android:id="@+id/view_flipper"

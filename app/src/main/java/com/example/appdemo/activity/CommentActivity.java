@@ -89,9 +89,10 @@ public class CommentActivity extends AppCompatActivity{
             public void onResponse(Call<CommentCreate> call, Response<CommentCreate> response) {
                 CommentCreate res = response.body();
                 if(response.code() == 200 && res != null){
-                    commentCreates.add(commentCreates.size(), res);
+                //    commentCreates.add(commentCreates.size(), res);
                     Utils.showToast(CommentActivity.this, "Done!");
-                    commentAdapter.notifyDataSetChanged();
+                    getAllComment(postId);
+                    //commentAdapter.notifyDataSetChanged();
                     edtComment.setText("");
 
                 } else {
@@ -111,7 +112,7 @@ public class CommentActivity extends AppCompatActivity{
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 ArrayList<Comment> comments = (ArrayList<Comment>) response.body();
-                if(response.code() == 200 && commentList != null){
+                if(response.code() == 200 && comments != null){
                     commentList.clear();
                     commentList.addAll(comments);
                     commentAdapter.notifyDataSetChanged();

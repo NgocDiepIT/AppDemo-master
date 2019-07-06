@@ -29,4 +29,8 @@ public class APIStringRoot {
     static final String CREATE_COMMENT = "/api/post/comment";
 
     static final String UPDATE_AVATAR = "/api/user/update-avatar";
+
+    static final String GET_GROUP = "/api/chat/all-group";
+
+    static final String GET_ALL_MESSAGE = "/api/chat/all-message";
 }

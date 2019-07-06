@@ -36,6 +36,20 @@ public class RealmContext {
         realm.commitTransaction();
     }
 
+    public void updateInfor(String link){
+        realm.beginTransaction();
+        UserInfor newUserInfo = realm.createObject(UserInfor.class);
+        UserInfor user = getUser();
+        newUserInfo.setAvatar(link);
+        newUserInfo.setFullName(user.getFullName());
+        newUserInfo.setUserId(user.getUserId());
+        newUserInfo.setUsername(user.getUsername());
+        user.deleteFromRealm();
+        realm.copyFromRealm(newUserInfo);
+        realm.commitTransaction();
+    }
+
+
     public UserInfor getUser() {
         return realm.where(UserInfor.class).findFirst();
     }

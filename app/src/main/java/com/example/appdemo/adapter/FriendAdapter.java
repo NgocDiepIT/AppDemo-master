@@ -56,7 +56,6 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
         TextView tvFullName;
         LinearLayout itemFriend;
         UserInfor userInfor;
-//        TextView tvMine;
 
         public MyViewHolder(@NonNull View itemView) {
 
@@ -64,7 +63,6 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
             context = itemView.getContext();
             imvAvatar = itemView.findViewById(R.id.imv_avatar);
             tvFullName = itemView.findViewById(R.id.tv_full_name);
-//            tvMine = itemView.findViewById(R.id.tv_mine);
             itemFriend = itemView.findViewById(R.id.item_friend);
             itemFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,11 +76,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
             this.userInfor = userInfor;
             Glide.with(context).load(userInfor.getAvatar()).into(imvAvatar);
             tvFullName.setText(userInfor.getFullName());
-//            if (friend.isYou()){
-//                tvMine.setVisibility(View.VISIBLE);
-//            } else {
-//                tvMine.setVisibility(View.GONE);
-//            }
+            //        viewFlipper.setDisplayChild(friend.isAdded() ? 1 : 0)
         }
     }
 }

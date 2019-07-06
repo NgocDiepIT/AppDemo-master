@@ -10,6 +10,8 @@ import com.example.appdemo.json_models.response.Avatar;
 import com.example.appdemo.json_models.response.Comment;
 import com.example.appdemo.json_models.response.CommentCreate;
 import com.example.appdemo.json_models.response.Friend;
+import com.example.appdemo.json_models.response.GroupChat;
+import com.example.appdemo.json_models.response.Message;
 import com.example.appdemo.json_models.response.ProfileUser;
 import com.example.appdemo.json_models.response.Status;
 import com.example.appdemo.json_models.response.UserInfor;
@@ -75,4 +77,10 @@ public interface RetrofitService {
     @PUT(APIStringRoot.UPDATE_AVATAR)
     @Headers({APIStringRoot.HEADER})
     Call<Avatar> updateAvatar(@Query("userId") String userId, @Body Avatar avatar);
+
+    @GET(APIStringRoot.GET_GROUP)
+    Call<ArrayList<GroupChat>> getGroup(@Query("userId") String userId);
+
+    @GET(APIStringRoot.GET_ALL_MESSAGE)
+    Call<List<Message>> getAllMessage(@Query("groupId") String groupId);
 }

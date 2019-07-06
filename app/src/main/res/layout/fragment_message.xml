@@ -1,14 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.MessageFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+<ViewFlipper
+    android:id="@+id/view_flipper"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin5"
+        android:indeterminateDrawable="@drawable/custom_progress_bar"
+        android:paddingBottom="@dimen/margin10" />
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:text="You haven't had any conservations!"
+        android:textColor="@color/grey"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/margin20"
+        android:textSize="@dimen/font17"/>
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_groupchat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </androidx.recyclerview.widget.RecyclerView>
+</ViewFlipper>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_float"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/margin20"
+        android:layout_marginTop="@dimen/margin20"
+        android:layout_marginEnd="@dimen/margin20"
+        android:layout_marginBottom="@dimen/margin20"
+        android:src="@android:drawable/ic_input_add"
+        app:maxImageSize="@dimen/margin40"
+        android:tint="@color/white"
+        app:rippleColor="@color/blueLite"
+        />
+
+</RelativeLayout>

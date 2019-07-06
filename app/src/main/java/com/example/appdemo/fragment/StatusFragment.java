@@ -116,10 +116,9 @@ public class StatusFragment extends Fragment implements OnItemStatusClickListene
                 dialogAvatar = dialogView.findViewById(R.id.dialog_ava);
                 edtPost = dialogView.findViewById(R.id.edt_post);
 
-                builder.setPositiveButton("Cancel", null);
-                builder.setNegativeButton("Post", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Post", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(DialogInterface dialog, int which) {
                         String content = edtPost.getText().toString();
                         if (content.isEmpty()) {
                             Utils.showToast(getActivity(), "You didn't input content to post!");
@@ -128,6 +127,7 @@ public class StatusFragment extends Fragment implements OnItemStatusClickListene
                         }
                     }
                 });
+                builder.setNegativeButton("Cancel", null);
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
             }

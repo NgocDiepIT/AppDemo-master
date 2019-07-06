@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.appdemo.R;
 import com.example.appdemo.adapter.StatusAdapter;
+import com.example.appdemo.dbcontext.RealmContext;
 import com.example.appdemo.interf.OnItemStatusClickListener;
 import com.example.appdemo.json_models.request.LikeStatusSendForm;
 import com.example.appdemo.json_models.response.ProfileUser;
@@ -104,6 +105,7 @@ public class ProfileFriendActivity extends AppCompatActivity implements OnItemSt
         ivAva = findViewById(R.id.iv_ava);
         itemAddress = findViewById(R.id.item_address);
         itemPhone = findViewById(R.id.item_phone);
+        userInfor = RealmContext.getInstance().getUser();
 
         statusArrayList = new ArrayList<>();
 
@@ -199,11 +201,13 @@ public class ProfileFriendActivity extends AppCompatActivity implements OnItemSt
 
     @Override
     public void onLikeClick(Status status) {
+
         likePost(status);
     }
 
     @Override
     public void onCommentClick(Status status) {
+
         Intent intent = new Intent(ProfileFriendActivity.this, CommentActivity.class);
         intent.putExtra("GetPostId", status.getPostId());
         intent.putExtra("GetUserId", userInfor.getUserId());
@@ -212,6 +216,7 @@ public class ProfileFriendActivity extends AppCompatActivity implements OnItemSt
 
     @Override
     public void onEditStatus(Status status) {
+
 
     }
 

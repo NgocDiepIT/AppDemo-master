@@ -2,7 +2,7 @@ package com.example.appdemo.network;
 
 public class APIStringRoot {
 
-    static final String API_ROOT = "https://hubbook.herokuapp.com";
+    public static final String API_ROOT = "https://hubbook.herokuapp.com";
 
     static final String LOGIN = "/api/user/login";
 
@@ -33,4 +33,6 @@ public class APIStringRoot {
     static final String GET_GROUP = "/api/chat/all-group";
 
     static final String GET_ALL_MESSAGE = "/api/chat/all-message";
+
+    static final String CREATE_GROUP_CHAT = "/api/chat/create-group";
 }

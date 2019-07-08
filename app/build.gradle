@@ -47,3 +47,8 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation "com.github.firdausmaulan:GlideSlider:1.4.1"
 }
+
+//socket io client
+dependencies {
+    implementation 'com.github.nkzawa:socket.io-client:0.6.0'
+}

@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MessageByGroup"></activity>
+        <activity android:name=".activity.MessageByGroupActivity"></activity>
         <activity android:name=".activity.AddConservationActivity" />
         <activity android:name=".activity.ProfileFriendActivity" />
         <activity android:name=".activity.CommentActivity" />

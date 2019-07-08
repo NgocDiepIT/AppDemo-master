@@ -39,6 +39,9 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab);
         viewPager = findViewById(R.id.viewPager);
 
+        //load đồng thời 4 trang ngay từ đầu, nhưng không load lại khi chuyển trang, trừ khi refresh lại trang.
+//        viewPager.setOffscreenPageLimit(4);
+
         adapter = new HomeViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

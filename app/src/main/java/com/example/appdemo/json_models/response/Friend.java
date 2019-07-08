@@ -15,16 +15,6 @@ public class Friend {
     @SerializedName("isYou")
     private boolean isYou;
 
-    private boolean added;
-
-    public boolean isAdded() {
-        return added;
-    }
-
-    public void setAdded(boolean added) {
-        this.added = added;
-    }
-
     public Friend(String username, String avatarUrl, String fullName, boolean isYou) {
         this.username = username;
         this.avatarUrl = avatarUrl;

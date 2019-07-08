@@ -15,7 +15,7 @@ import android.widget.ViewFlipper;
 
 import com.example.appdemo.R;
 import com.example.appdemo.activity.AddConservationActivity;
-import com.example.appdemo.activity.MessageByGroup;
+import com.example.appdemo.activity.MessageByGroupActivity;
 import com.example.appdemo.adapter.GroupChatAdapter;
 import com.example.appdemo.dbcontext.RealmContext;
 import com.example.appdemo.interf.OnItemGroupChatClickListener;
@@ -27,7 +27,6 @@ import com.example.appdemo.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -106,7 +105,7 @@ public class MessageFragment extends Fragment implements OnItemGroupChatClickLis
 
     @Override
     public void viewConservationByGroup(GroupChat groupChat) {
-        Intent intent = new Intent(getActivity(), MessageByGroup.class);
+        Intent intent = new Intent(getActivity(), MessageByGroupActivity.class);
         intent.putExtra("GetGroupId", groupChat.getGroupId());
         intent.putExtra("GetGroupName", groupChat.getGroupName());
         startActivity(intent);

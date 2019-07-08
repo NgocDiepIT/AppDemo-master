@@ -62,4 +62,13 @@ public class RealmContext {
         realm.commitTransaction();
     }
 
+//    public void updateAvartar(String url){
+//        realm.executeTransaction(realm1 -> {
+//            UserInfor userInfor = getUser();
+//            if(userInfor != null){
+//                userInfor.setAvatar(url);
+//            }
+//        });
+//    }
+
 }

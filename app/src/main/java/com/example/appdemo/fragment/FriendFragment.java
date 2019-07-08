@@ -28,6 +28,7 @@ import com.example.appdemo.network.RetrofitService;
 import com.example.appdemo.network.RetrofitUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -111,4 +112,5 @@ public class FriendFragment extends Fragment implements OnItemFriendClickListene
         intent.putExtra("GetAvatarUrl", userInfor.getAvatar());
         startActivity(intent);
     }
+
 }

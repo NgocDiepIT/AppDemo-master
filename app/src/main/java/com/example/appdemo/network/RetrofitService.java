@@ -1,6 +1,7 @@
 package com.example.appdemo.network;
 
 import com.example.appdemo.json_models.request.CommentStatusSendForm;
+import com.example.appdemo.json_models.request.CreateGroupChatSendForm;
 import com.example.appdemo.json_models.request.CreateStatusSendForm;
 import com.example.appdemo.json_models.request.LikeStatusSendForm;
 import com.example.appdemo.json_models.request.LoginSendForm;
@@ -11,6 +12,7 @@ import com.example.appdemo.json_models.response.Comment;
 import com.example.appdemo.json_models.response.CommentCreate;
 import com.example.appdemo.json_models.response.Friend;
 import com.example.appdemo.json_models.response.GroupChat;
+import com.example.appdemo.json_models.response.GroupChatCreate;
 import com.example.appdemo.json_models.response.Message;
 import com.example.appdemo.json_models.response.ProfileUser;
 import com.example.appdemo.json_models.response.Status;
@@ -83,4 +85,8 @@ public interface RetrofitService {
 
     @GET(APIStringRoot.GET_ALL_MESSAGE)
     Call<List<Message>> getAllMessage(@Query("groupId") String groupId);
+
+    @POST(APIStringRoot.CREATE_GROUP_CHAT)
+    @Headers({APIStringRoot.HEADER})
+    Call<GroupChatCreate> createGroupChat(@Body CreateGroupChatSendForm sendForm);
 }

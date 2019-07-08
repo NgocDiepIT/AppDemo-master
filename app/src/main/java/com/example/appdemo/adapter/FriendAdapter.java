@@ -76,7 +76,6 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
             this.userInfor = userInfor;
             Glide.with(context).load(userInfor.getAvatar()).into(imvAvatar);
             tvFullName.setText(userInfor.getFullName());
-            //        viewFlipper.setDisplayChild(friend.isAdded() ? 1 : 0)
         }
     }
 }

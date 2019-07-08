@@ -17,6 +17,16 @@ public class UserInfor extends RealmObject {
     @SerializedName("avatarUrl")
     private String avatar;
 
+    private boolean added;
+
+    public boolean isAdded() {
+        return added;
+    }
+
+    public void setAdded(boolean added) {
+        this.added = added;
+    }
+
     public UserInfor() {
     }
 

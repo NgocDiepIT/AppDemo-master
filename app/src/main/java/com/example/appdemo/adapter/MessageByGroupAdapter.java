@@ -20,24 +20,24 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder> {
+public class MessageByGroupAdapter extends RecyclerView.Adapter<MessageByGroupAdapter.MyViewHolder> {
     ArrayList<Message> messageArrayList;
     UserInfor userInfor;
 
-    public MessageAdapter(ArrayList<Message> messageArrayList) {
+    public MessageByGroupAdapter(ArrayList<Message> messageArrayList) {
         this.messageArrayList = messageArrayList;
         userInfor = RealmContext.getInstance().getUser();
     }
 
     @NonNull
     @Override
-    public MessageAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MessageByGroupAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_message, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MessageAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MessageByGroupAdapter.MyViewHolder holder, int position) {
         holder.bindView(messageArrayList.get(position));
     }
 

@@ -125,7 +125,7 @@ public class AddConservationActivity extends AppCompatActivity implements OnItem
                     intent.putExtra("GetGroupName", nameGroup);
                     intent.putExtra("GetGroupId", groupChat.get_id());
                     startActivity(intent);
-//                    finish();
+                    finish();
                 }
             }
 
@@ -153,7 +153,7 @@ public class AddConservationActivity extends AppCompatActivity implements OnItem
         } else {
             name = userName[0] + ", " + userName[1] + ", +" + valueOf(users.length - 2);
         }
-        Log.d("bkhub", name);
+//        Log.d("bkhub", name);
 
         CreateGroupChatSendForm sendForm = new CreateGroupChatSendForm(name, users);
         retrofitService.createGroupChat(sendForm).enqueue(new Callback<GroupChatCreate>() {
@@ -167,7 +167,7 @@ public class AddConservationActivity extends AppCompatActivity implements OnItem
                     intent.putExtra("GetGroupId", groupChat.get_id());
                     intent.putExtra("GetGroupName", name);
                     startActivity(intent);
-//                    finish();
+                    finish();
                 }
             }
 
@@ -215,8 +215,9 @@ public class AddConservationActivity extends AppCompatActivity implements OnItem
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 }
-
             });
+        } else {
+            ivOk.setVisibility(View.INVISIBLE);
         }
     }
 }

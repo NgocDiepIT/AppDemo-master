@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.example.appdemo.R;
-import com.example.appdemo.adapter.MessageAdapter;
+import com.example.appdemo.adapter.MessageByGroupAdapter;
 import com.example.appdemo.dbcontext.RealmContext;
 import com.example.appdemo.json_models.response.Message;
 import com.example.appdemo.json_models.response.UserInfor;
@@ -41,7 +41,7 @@ public class MessageByGroupActivity extends AppCompatActivity {
     private RetrofitService retrofitService;
     EditText edtMess;
     ImageView ivSend, ivBack;
-    MessageAdapter messageAdapter;
+    MessageByGroupAdapter messageAdapter;
     ArrayList<Message> messageArrayList;
     String groupId, groupName;
     UserInfor userInfor;
@@ -61,8 +61,19 @@ public class MessageByGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_by_group);
         init();
-        getAllMessage();
         addListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAllMessage();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        socket.disconnect();
     }
 
     private void init() {
@@ -87,7 +98,7 @@ public class MessageByGroupActivity extends AppCompatActivity {
         retrofitService = RetrofitUtils.getInstance().createService(RetrofitService.class);
 
         messageArrayList = new ArrayList<>();
-        messageAdapter = new MessageAdapter(messageArrayList);
+        messageAdapter = new MessageByGroupAdapter(messageArrayList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MessageByGroupActivity.this, RecyclerView.VERTICAL, false);
         linearLayoutManager.setStackFromEnd(true);
 

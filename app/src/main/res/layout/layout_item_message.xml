@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ViewFlipper
+        android:id="@+id/view_flipper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin5"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_ava_friend"
+                android:layout_width="@dimen/margin40"
+                android:layout_height="@dimen/margin40"
+                android:src="@drawable/backgr"
+                android:layout_marginLeft="@dimen/margin10"
+                />
+
+            <TextView
+                android:id="@+id/tv_mess_friend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="150dp"
+                android:layout_marginLeft="@dimen/margin10"
+                android:textSize="@dimen/font17"
+                android:textColor="@color/black"
+                android:background="@drawable/custom_message_friend"
+                android:padding="8dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin5"
+            android:orientation="horizontal"
+            android:layoutDirection="rtl">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_ava_me"
+                android:layout_width="@dimen/margin40"
+                android:layout_height="@dimen/margin40"
+                android:src="@drawable/backgr"
+                android:layout_marginRight="@dimen/margin10"
+                />
+
+            <TextView
+                android:id="@+id/tv_mess_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="150dp"
+                android:layout_marginRight="@dimen/margin10"
+                android:textSize="@dimen/font17"
+                android:textColor="@color/white"
+                android:background="@drawable/custom_message_me"
+                android:padding="8dp"
+                />
+
+        </LinearLayout>
+    </ViewFlipper>
+
+</LinearLayout>

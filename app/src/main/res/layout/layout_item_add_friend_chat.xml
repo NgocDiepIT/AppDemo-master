@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:id="@+id/item_add_conservation"
+    android:background="@drawable/custom_click">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_ava"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/margin10"
+        android:src="@drawable/backgr"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="1dp" />
+
+    <TextView
+        android:id="@+id/tv_full_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/iv_ava"
+        android:paddingLeft="@dimen/margin15"
+        android:text="Username"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font15"
+        android:textStyle="bold" />
+
+    <ViewFlipper
+        android:id="@id/view_flipper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/margin15">
+
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="@dimen/margin15"
+            android:layout_height="@dimen/margin15"
+            android:layout_gravity="center"
+            android:background="@drawable/icon_plus" />
+
+        <ImageView
+            android:id="@+id/iv_tick"
+            android:layout_width="@dimen/margin15"
+            android:layout_height="@dimen/margin15"
+            android:layout_gravity="center"
+            android:background="@drawable/icon_tick_red" />
+
+    </ViewFlipper>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_below="@id/iv_ava"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="@dimen/margin10"
+        android:background="@color/greylite2" />
+
+</RelativeLayout>

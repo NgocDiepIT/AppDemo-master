@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin20"
+        android:gravity="center"
+        android:text="@string/name_ques"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font15" />
+
+    <EditText
+        android:id="@+id/edt_name_group"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/margin20"
+        android:layout_marginTop="@dimen/margin15"
+        android:layout_marginEnd="@dimen/margin20"
+        android:background="@drawable/custom_edittext_boder"
+        android:hint="NameGroup"
+        android:padding="@dimen/margin10"
+        android:textSize="@dimen/font17" />
+
+</LinearLayout>

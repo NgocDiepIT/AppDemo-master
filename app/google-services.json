@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "450425956299",
+    "firebase_url": "https://ngocdiep.firebaseio.com",
+    "project_id": "ngocdiep",
+    "storage_bucket": "ngocdiep.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450425956299:android:33a769a276431f2e",
+        "android_client_info": {
+          "package_name": "com.example.appdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450425956299-095ed2snsl6pah6u8htflq58qtkicjep.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.appdemo",
+            "certificate_hash": "7b9a0a4f78f5cffcc8a2f325ab498fe0fb1a7438"
+          }
+        },
+        {
+          "client_id": "450425956299-asp2ksp1hvoc616rn02m7pbm8elorkcf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeQsRAFoVaHBkX3HbZ7yavSrz0Gvi_CKw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450425956299-asp2ksp1hvoc616rn02m7pbm8elorkcf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

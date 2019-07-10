@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="Username"
-        android:paddingLeft="@dimen/margin10"
+        android:paddingLeft="@dimen/margin15"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"

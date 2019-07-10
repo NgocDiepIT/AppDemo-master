@@ -285,7 +285,7 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
                 Avatar avatarRes = response.body();
                 if(response.code() == 200 && avatarRes != null){
 
-                    RealmContext.getInstance().updateInfor(avatarRes.getAvatarUrl());
+                    RealmContext.getInstance().updateAvartar(avatarRes.getAvatarUrl());
                 } else {
                     Utils.showToast(getActivity(), "This is fail while getting image!");
                 }

@@ -109,11 +109,17 @@ public class AddConservationActivity extends AppCompatActivity implements OnItem
 
     private void createGroupWithName(List<UserInfor> userInforList){
         String[] users = new String[userInforList.size()];
+        String[] memberName = new String[userInforList.size()];
+
         for(int i=0; i < userInforList.size(); i++){
             users[i] = userInforList.get(i).getUserId();
         }
 
-        CreateGroupChatSendForm sendForm = new CreateGroupChatSendForm(nameGroup, users);
+        for(int i=0; i < userInforList.size(); i++){
+            memberName[i] = userInforList.get(i).getFullName();
+        }
+
+        CreateGroupChatSendForm sendForm = new CreateGroupChatSendForm(users);
         retrofitService.createGroupChat(sendForm).enqueue(new Callback<GroupChatCreate>() {
             @Override
             public void onResponse(Call<GroupChatCreate> call, Response<GroupChatCreate> response) {
@@ -124,6 +130,7 @@ public class AddConservationActivity extends AppCompatActivity implements OnItem
                     Intent intent = new Intent(AddConservationActivity.this, MessageByGroupActivity.class);
                     intent.putExtra("GetGroupName", nameGroup);
                     intent.putExtra("GetGroupId", groupChat.get_id());
+                    intent.putExtra("GetMember", memberName);
                     startActivity(intent);
                     finish();
                 }
@@ -139,9 +146,14 @@ public class AddConservationActivity extends AppCompatActivity implements OnItem
     private void createGroupWithoutName(List<UserInfor> userInforList){
         String[] users = new String[userInforList.size()];
         String[] userName = new String[userInforList.size()];
+        String[] memberName = new String[userInforList.size()];
         String name;
         for(int i=0; i < userInforList.size(); i++){
             users[i] = userInforList.get(i).getUserId();
+        }
+
+        for(int i=0; i < userInforList.size(); i++){
+            memberName[i] = userInforList.get(i).getFullName();
         }
 
         for(int i=0; i < 2; i++){
@@ -155,7 +167,7 @@ public class AddConservationActivity extends AppCompatActivity implements OnItem
         }
 //        Log.d("bkhub", name);
 
-        CreateGroupChatSendForm sendForm = new CreateGroupChatSendForm(name, users);
+        CreateGroupChatSendForm sendForm = new CreateGroupChatSendForm(users);
         retrofitService.createGroupChat(sendForm).enqueue(new Callback<GroupChatCreate>() {
             @Override
             public void onResponse(Call<GroupChatCreate> call, Response<GroupChatCreate> response) {
@@ -166,6 +178,7 @@ public class AddConservationActivity extends AppCompatActivity implements OnItem
                     Intent intent = new Intent(AddConservationActivity.this, MessageByGroupActivity.class);
                     intent.putExtra("GetGroupId", groupChat.get_id());
                     intent.putExtra("GetGroupName", name);
+//                    intent.putExtra("GetMember", memberName);
                     startActivity(intent);
                     finish();
                 }

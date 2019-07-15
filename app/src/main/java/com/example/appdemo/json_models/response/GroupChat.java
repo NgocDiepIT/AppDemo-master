@@ -2,6 +2,8 @@ package com.example.appdemo.json_models.response;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class GroupChat {
     @SerializedName("groupId")
     private String groupId;
@@ -9,14 +11,14 @@ public class GroupChat {
     private String groupName;
     @SerializedName("lastMessage")
     private String lastMessage;
-    @SerializedName("avatars")
-    private String[] avatars;
+    @SerializedName("users")
+    private ArrayList<UserInfor> users;
 
-    public GroupChat(String groupId, String groupName, String lastMessage, String[] avatars) {
+    public GroupChat(String groupId, String groupName, String lastMessage, ArrayList<UserInfor> users) {
         this.groupId = groupId;
         this.groupName = groupName;
         this.lastMessage = lastMessage;
-        this.avatars = avatars;
+        this.users = users;
     }
 
     public String getGroupId() {
@@ -43,11 +45,12 @@ public class GroupChat {
         this.lastMessage = lastMessage;
     }
 
-    public String[] getAvatars() {
-        return avatars;
+    public ArrayList<UserInfor> getUsers() {
+        return users;
     }
 
-    public void setAvatars(String[] avatars) {
-        this.avatars = avatars;
+    public void setUsers(ArrayList<UserInfor> users) {
+        this.users = users;
     }
 }
+

@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,6 +61,7 @@ public class StatusFragment extends Fragment implements OnItemStatusClickListene
     final int MODE_NO_DATA = 1;
     final int MODE_RECYCYCLEVIEW = 2;
     Status currentStatus;
+    SwipeRefreshLayout refreshLayout;
 
     public StatusFragment() {
     }
@@ -92,6 +94,7 @@ public class StatusFragment extends Fragment implements OnItemStatusClickListene
         tvPost = view.findViewById(R.id.tv_post);
         recyclerView = view.findViewById(R.id.rv_status);
         newfeesAvatar = view.findViewById(R.id.newfeeds_ava);
+        refreshLayout = view.findViewById(R.id.refresh_layout);
 
         statusList = new ArrayList<>();
         statusAdapter = new StatusAdapter(this, statusList);
@@ -103,6 +106,13 @@ public class StatusFragment extends Fragment implements OnItemStatusClickListene
     }
 
     private void addListener() {
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getAllPost(user.getUserId());
+            }
+        });
+
         tvPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,11 +180,13 @@ public class StatusFragment extends Fragment implements OnItemStatusClickListene
                 } else {
                     viewFlipper.setDisplayedChild(MODE_NO_DATA);
                 }
+                refreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<List<Status>> call, Throwable t) {
                 Utils.showToast(getActivity(), "No Internet!");
+                refreshLayout.setRefreshing(false);
             }
         });
     }

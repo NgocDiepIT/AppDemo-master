@@ -6,6 +6,9 @@ import com.example.appdemo.json_models.request.CreateStatusSendForm;
 import com.example.appdemo.json_models.request.LikeStatusSendForm;
 import com.example.appdemo.json_models.request.LoginSendForm;
 import com.example.appdemo.json_models.request.RegisterSendForm;
+import com.example.appdemo.json_models.request.UpdateCoverPhotoSendForm;
+import com.example.appdemo.json_models.request.UpdateGroupNameSendForm;
+import com.example.appdemo.json_models.request.UpdateProfileSendForm;
 import com.example.appdemo.json_models.request.UpdateStatusSendForm;
 import com.example.appdemo.json_models.response.Avatar;
 import com.example.appdemo.json_models.response.Comment;
@@ -89,4 +92,16 @@ public interface RetrofitService {
     @POST(APIStringRoot.CREATE_GROUP_CHAT)
     @Headers({APIStringRoot.HEADER})
     Call<GroupChatCreate> createGroupChat(@Body CreateGroupChatSendForm sendForm);
+
+    @PUT(APIStringRoot.UPDATE_GROUP_NAME)
+    @Headers({APIStringRoot.HEADER})
+    Call<Void> updateGroupName(@Body UpdateGroupNameSendForm sendForm);
+
+    @PUT(APIStringRoot.UPDATE_PROFILE)
+    @Headers({APIStringRoot.HEADER})
+    Call<Void> updateProfile(@Query("userId") String userId, @Body UpdateProfileSendForm sendForm);
+
+    @PUT(APIStringRoot.UPDATE_COVER_PHOTO)
+    @Headers({APIStringRoot.HEADER})
+    Call<Void> updateCoverPhoto(@Query("userId") String userId, @Body UpdateCoverPhotoSendForm sendForm);
 }

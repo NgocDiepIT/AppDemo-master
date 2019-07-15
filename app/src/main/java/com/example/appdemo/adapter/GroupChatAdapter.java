@@ -20,6 +20,8 @@ import com.example.appdemo.json_models.response.UserInfor;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.MyViewHolder> {
@@ -49,14 +51,16 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.MyVi
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        ViewFlipper viewFlipper;
+        @BindView(R.id.view_flipper) ViewFlipper viewFlipper;
         CircleImageView ivAvaOne, ivAvaMore1, ivAvaMore2;
-        TextView tvNameGroup;
+        TextView tvNameGroup, tvLassMess;
         Context context;
         RelativeLayout relativeLayout;
         final int MODE_ONE = 0;
         final int MODE_MORE = 1;
         GroupChat groupChat;
+        ArrayList<UserInfor> userInfors;
+        String[] avas;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,24 +70,41 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.MyVi
         }
 
         private void init(View itemView) {
-            viewFlipper = itemView.findViewById(R.id.view_flipper);
+            ButterKnife.bind(this, itemView);
+            //với 1 activity bất kuf thì dùng             ButterKnife.bind(this);
+//            viewFlipper = itemView.findViewById(R.id.view_flipper);
             ivAvaOne = itemView.findViewById(R.id.iv_ava_one);
             ivAvaMore1 = itemView.findViewById(R.id.iv_ava_more1);
             ivAvaMore2 = itemView.findViewById(R.id.iv_ava_more2);
             tvNameGroup = itemView.findViewById(R.id.tv_namegroup);
             relativeLayout = itemView.findViewById(R.id.relative_layout);
+            tvLassMess = itemView.findViewById(R.id.tv_lass_mess);
         }
 
         private void bindView(GroupChat groupChat) {
             this.groupChat = groupChat;
-            String[] avas = groupChat.getAvatars();
+
+            userInfors = groupChat.getUsers();
+            avas = new String[userInfors.size()];
+            for(int i=0; i<userInfors.size(); i++){
+                avas[i] = userInfors.get(i).getAvatar();
+            }
+
+
+            if(groupChat.getLastMessage() == null){
+                tvLassMess.setVisibility(View.INVISIBLE);
+            } else {
+                tvLassMess.setVisibility(View.VISIBLE);
+                tvLassMess.setText(groupChat.getLastMessage());
+            }
+
 
             if (avas == null || avas.length == 0) {
                 viewFlipper.setDisplayedChild(MODE_ONE);
                 Glide.with(context).load(R.drawable.backgr).into(ivAvaOne);
             } else if (avas.length == 1) {
                 viewFlipper.setDisplayedChild(MODE_ONE);
-                Glide.with(context).load(groupChat.getAvatars()[0]).into(ivAvaOne);
+                Glide.with(context).load(avas[0]).into(ivAvaOne);
             } else {
                 viewFlipper.setDisplayedChild(MODE_MORE);
                 Glide.with(context).load(avas[0]).into(ivAvaMore1);

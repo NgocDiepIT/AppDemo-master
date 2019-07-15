@@ -4,17 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.example.appdemo.R;
 import com.example.appdemo.adapter.MessageByGroupAdapter;
 import com.example.appdemo.dbcontext.RealmContext;
+import com.example.appdemo.json_models.request.UpdateGroupNameSendForm;
 import com.example.appdemo.json_models.response.Message;
 import com.example.appdemo.json_models.response.UserInfor;
 import com.example.appdemo.network.APIStringRoot;
@@ -36,6 +42,8 @@ import retrofit2.Response;
 
 public class MessageByGroupActivity extends AppCompatActivity {
     TextView tvNameGroup;
+    TextView tvMenu;
+    EditText edtRename;
     ViewFlipper viewFlipper;
     RecyclerView recyclerView;
     private RetrofitService retrofitService;
@@ -43,7 +51,8 @@ public class MessageByGroupActivity extends AppCompatActivity {
     ImageView ivSend, ivBack;
     MessageByGroupAdapter messageAdapter;
     ArrayList<Message> messageArrayList;
-    String groupId, groupName;
+    String groupId, groupName, reNameGroup;
+    String[] memberName;
     UserInfor userInfor;
     final int MODE_NO_DATA = 1;
     final int MODE_RECYCLEVIEW = 2;
@@ -83,10 +92,12 @@ public class MessageByGroupActivity extends AppCompatActivity {
         Intent intent = getIntent();
         groupId = intent.getStringExtra("GetGroupId");
         groupName = intent.getStringExtra("GetGroupName");
+//        memberName = intent.getStringArrayExtra("GetMember");
 
         socket.emit("join_chat", groupId, userInfor.getUserId());
         socket.on("new_message", onNewMessage);
 
+        tvMenu = findViewById(R.id.tv_menu);
         tvNameGroup = findViewById(R.id.tv_namegroup);
         tvNameGroup.setText(groupName);
         viewFlipper = findViewById(R.id.view_flipper);
@@ -136,6 +147,57 @@ public class MessageByGroupActivity extends AppCompatActivity {
             }
         });
 
+        tvMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(MessageByGroupActivity.this, tvMenu);
+                popupMenu.inflate(R.menu.groupchat_option_menu);
+                popupMenu.show();
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.option_name_group:
+                                android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MessageByGroupActivity.this);
+                                LayoutInflater inflater = MessageByGroupActivity.this.getLayoutInflater();
+                                View dialogView = inflater.inflate(R.layout.layout_dialog_rename_group, null);
+                                builder.setView(dialogView);
+                                builder.setCancelable(false);
+
+                                edtRename = dialogView.findViewById(R.id.edt_name_group);
+
+                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        reNameGroup = edtRename.getText().toString();
+                                        if (reNameGroup.isEmpty()) {
+                                            Utils.showToast(MessageByGroupActivity.this, "You didn't input namegroup!");
+                                        } else {
+                                            tvNameGroup.setText(reNameGroup);
+                                            updateGroupName(reNameGroup);
+                                        }
+                                    }
+                                });
+                                builder.setNegativeButton("Cancel", null);
+
+                                AlertDialog alertDialog = builder.create();
+                                alertDialog.show();
+
+                                break;
+                            case R.id.option_show_member:
+                                Intent intent = new Intent(MessageByGroupActivity.this, MemberOfGroupActivity.class);
+                                intent.putExtra("GetGroupName", groupName);
+                                intent.putExtra("GetGroupId", groupId);
+                                startActivity(intent);
+                                break;
+                        }
+                        return false;
+                    }
+                });
+            }
+        });
+
         ivSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,6 +208,25 @@ public class MessageByGroupActivity extends AppCompatActivity {
                 } else {
                     Utils.showToast(MessageByGroupActivity.this, "You must input content before sending!");
                 }
+            }
+        });
+    }
+
+    private void updateGroupName(String name){
+        UpdateGroupNameSendForm sendForm = new UpdateGroupNameSendForm(groupId, name);
+        retrofitService.updateGroupName(sendForm).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.code() == 200){
+                    Utils.showToast(MessageByGroupActivity.this, "Done!");
+                } else {
+                    Utils.showToast(MessageByGroupActivity.this, "Fail!");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Utils.showToast(MessageByGroupActivity.this, "No Internet!");
             }
         });
     }

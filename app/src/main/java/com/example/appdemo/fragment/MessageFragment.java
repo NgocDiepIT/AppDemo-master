@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,7 @@ public class MessageFragment extends Fragment implements OnItemGroupChatClickLis
     ArrayList<GroupChat> groupChatArrayList;
     final int MODE_NO_DATA = 1;
     final int MODE_RECYCLEVIEW = 2;
+    SwipeRefreshLayout refreshLayout;
 
     public MessageFragment() {
     }
@@ -61,6 +63,7 @@ public class MessageFragment extends Fragment implements OnItemGroupChatClickLis
         btnFloating = view.findViewById(R.id.btn_float);
         viewFlipper = view.findViewById(R.id.view_flipper);
         recyclerView = view.findViewById(R.id.rv_groupchat);
+        refreshLayout = view.findViewById(R.id.refresh_layout);
         retrofitService = RetrofitUtils.getInstance().createService(RetrofitService.class);
 
         groupChatArrayList = new ArrayList<>();
@@ -71,6 +74,13 @@ public class MessageFragment extends Fragment implements OnItemGroupChatClickLis
     }
 
     private void addListener() {
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getGroup();
+            }
+        });
+
         btnFloating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,11 +103,13 @@ public class MessageFragment extends Fragment implements OnItemGroupChatClickLis
                 } else {
                     viewFlipper.setDisplayedChild(MODE_NO_DATA);
                 }
+                refreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<ArrayList<GroupChat>> call, Throwable t) {
                 Utils.showToast(getActivity(), "No Internet!");
+                refreshLayout.setRefreshing(false);
             }
         });
     }

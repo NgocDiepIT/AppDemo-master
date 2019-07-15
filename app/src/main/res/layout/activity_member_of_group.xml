@@ -36,17 +36,16 @@
             android:textSize="@dimen/font20"
             android:layout_marginLeft="-40dp"/>
 
-        <TextView
-            android:id="@+id/tv_menu"
-            android:layout_width="@dimen/margin30"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/margin10"
-            android:gravity="center"
-            android:text="&#8942;"
-            android:textSize="@dimen/font23"
-            android:textColor="@color/white"
-            android:layout_centerVertical="true"/>
+        <!--<TextView-->
+            <!--android:id="@+id/tv_menu"-->
+            <!--android:layout_width="@dimen/margin30"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_marginTop="@dimen/margin10"-->
+            <!--android:gravity="center"-->
+            <!--android:text="&#8942;"-->
+            <!--android:textSize="@dimen/font20"-->
+            <!--android:textColor="@color/white"/>-->
 
     </RelativeLayout>
 
@@ -64,54 +63,12 @@
             android:layout_marginTop="@dimen/margin20"
             android:indeterminateDrawable="@drawable/custom_progress_bar" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin20"
-            android:text="There hasn't had any messages!"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/font15" />
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_mess"
+            android:id="@+id/rv_member"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
         </androidx.recyclerview.widget.RecyclerView>
     </ViewFlipper>
-
-
-    <LinearLayout
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:paddingTop="@dimen/margin5">
-
-        <EditText
-            android:id="@+id/edt_message"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/margin40"
-            android:layout_margin="@dimen/margin15"
-            android:layout_weight="7"
-            android:background="@drawable/custom_edittext_boder"
-            android:hint="Enter message"
-            android:paddingStart="@dimen/margin15"
-            android:paddingEnd="@dimen/margin15"
-            android:textColor="@color/black"
-            android:textSize="@dimen/font17" />
-
-        <ImageView
-            android:id="@+id/iv_send"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="@dimen/margin10"
-            android:layout_weight="1"
-            android:src="@drawable/ic_send" />
-    </LinearLayout>
-
 
 </RelativeLayout>

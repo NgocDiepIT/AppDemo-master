@@ -11,15 +11,13 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.storage.StorageManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +34,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.appdemo.R;
 import com.example.appdemo.activity.AuthenActivity;
 import com.example.appdemo.activity.CommentActivity;
+import com.example.appdemo.activity.UpdateProfileActivity;
 import com.example.appdemo.adapter.StatusAdapter;
 import com.example.appdemo.common.EditStatusDialog;
 import com.example.appdemo.dbcontext.RealmContext;
@@ -43,6 +42,7 @@ import com.example.appdemo.interf.OnItemStatusClickListener;
 import com.example.appdemo.interf.OnUpdateDialogListener;
 import com.example.appdemo.json_models.request.CreateStatusSendForm;
 import com.example.appdemo.json_models.request.LikeStatusSendForm;
+import com.example.appdemo.json_models.request.UpdateProfileSendForm;
 import com.example.appdemo.json_models.request.UpdateStatusSendForm;
 import com.example.appdemo.json_models.response.Avatar;
 import com.example.appdemo.json_models.response.ProfileUser;
@@ -53,7 +53,6 @@ import com.example.appdemo.network.RetrofitUtils;
 import com.example.appdemo.utils.Utils;
 import com.glide.slider.library.SliderLayout;
 import com.glide.slider.library.SliderTypes.DefaultSliderView;
-import com.glide.slider.library.SliderTypes.TextSliderView;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -79,9 +78,11 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
     ArrayList<Status> statusArrayList;
     RecyclerView recyclerView;
     private StorageReference storageReference;
+    String address, DoB, phone;
+    SwipeRefreshLayout refreshLayout;
 
     StatusAdapter statusAdapter;
-    ImageView ivAva, newfeedAva, ivCamera;
+    ImageView ivAva, newfeedAva, ivCamera, ivUpdateCover;
     CircleImageView dialogAvatar;
     Status currentStatus;
     TextView tvMenu, tvPost;
@@ -109,10 +110,23 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
     }
 
     private void addListener() {
-        tvPost.setOnClickListener(new View.OnClickListener() {
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getProfile(userInfor.getUsername(), userInfor.getUserId());
+            }
+        });
+
+        ivUpdateCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+
+        tvPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.layout_dialog_post, null);
@@ -143,7 +157,7 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
             @Override
             public void onClick(View v) {
                 PopupMenu popupMenu = new PopupMenu(getContext(), tvMenu);
-                popupMenu.inflate(R.menu.logout_option_menu);
+                popupMenu.inflate(R.menu.profile_option_menu);
                 popupMenu.show();
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -153,6 +167,14 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
                             case R.id.option_logout:
                                 RealmContext.getInstance().deleteAllUser();
                                 gotoLogin();
+                                break;
+                            case R.id.option_edit_profile:
+                                Intent intent = new Intent(getActivity(), UpdateProfileActivity.class);
+                                intent.putExtra("GetFullName", userInfor.getFullName());
+                                intent.putExtra("GetAddress", address);
+                                intent.putExtra("GetDoB", DoB);
+                                intent.putExtra("GetPhone", phone);
+                                startActivity(intent);
                                 break;
                         }
                         return false;
@@ -190,6 +212,7 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
         });
     }
 
+
     private void createPost(String content) {
         CreateStatusSendForm sendForm = new CreateStatusSendForm(userInfor.getUserId(), content);
         retrofitService.createPost(sendForm).enqueue(new Callback<Status>() {
@@ -203,12 +226,13 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
                 } else {
                     Utils.showToast(getActivity(), "Post fail!");
                 }
+                refreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<Status> call, Throwable t) {
-
                 Utils.showToast(getActivity(), "No internet!");
+                refreshLayout.setRefreshing(false);
             }
         });
     }
@@ -327,6 +351,8 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
         itemAddress = view.findViewById(R.id.item_address);
         itemPhone = view.findViewById(R.id.item_phone);
         ivCamera = view.findViewById(R.id.iv_camera);
+        refreshLayout = view.findViewById(R.id.refresh_layout);
+        ivUpdateCover = view.findViewById(R.id.iv_update_cover);
         storageReference = FirebaseStorage.getInstance().getReference();
 
         statusArrayList = new ArrayList<>();
@@ -351,6 +377,10 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
                     tvPhone.setText(profileUser.getPhone());
                     Glide.with(getActivity()).load(userInfor.getAvatar()).into(ivAva);
                     Glide.with(getActivity()).load(userInfor.getAvatar()).into(newfeedAva);
+
+                    address = profileUser.getAddress();
+                    DoB = profileUser.getBirthday();
+                    phone = profileUser.getPhone();
 
                     ArrayList<Status> statuses = profileUser.getPostList();
                     if (statuses != null) {

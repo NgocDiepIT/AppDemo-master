@@ -54,12 +54,24 @@
         android:id="@+id/tv_namegroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="@dimen/margin15"
         android:layout_marginLeft="80dp"
         android:text="Group"
         android:textColor="@color/black"
         android:textSize="@dimen/font17"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_lass_mess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:text="Lass message"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/font15"
+        android:layout_below="@+id/tv_namegroup"
+        android:visibility="invisible"
+        />
 
     <View
         android:layout_width="match_parent"

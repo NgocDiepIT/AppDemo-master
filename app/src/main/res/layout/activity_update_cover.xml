@@ -1,9 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.UpdateCoverActivity">
+    tools:context=".activity.UpdateCoverActivity"
+    android:background="@color/greylite2">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/layout_user"
+        android:layout_marginTop="@dimen/margin15"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Choose photos"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font23"
+            android:layout_marginLeft="@dimen/margin40"
+            android:layout_toStartOf="@id/iv_ok"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            />
+
+        <ImageView
+            android:id="@+id/iv_ok"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_tick_red"
+            android:padding="@dimen/margin10"
+            android:layout_marginRight="@dimen/margin10"
+            android:visibility="invisible"
+            />
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_image"
+        android:layout_below="@+id/layout_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin40">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/margin40"
+        android:layout_marginRight="90dp"
+        android:text="Add image"
+        android:textSize="@dimen/font20"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_float"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/margin20"
+        android:layout_marginTop="@dimen/margin20"
+        android:layout_marginEnd="@dimen/margin20"
+        android:layout_marginBottom="@dimen/margin20"
+        android:src="@android:drawable/ic_input_add"
+        android:tint="@color/white"
+        app:maxImageSize="@dimen/margin40"
+        app:rippleColor="@color/blueLite" />
+
+</RelativeLayout>

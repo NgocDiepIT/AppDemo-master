@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/margin10">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="320dp">
+
+        <ImageView
+            android:scaleType="centerInside"
+            android:id="@+id/iv_image"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="@dimen/margin15"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="@dimen/margin30"
+            android:layout_height="@dimen/margin30"
+            android:layout_marginLeft="290dp"
+            android:background="@drawable/custom_delete_circle"
+            android:padding="@dimen/margin5"
+            android:src="@drawable/icon_delete" />
+    </RelativeLayout>
+
+</LinearLayout>

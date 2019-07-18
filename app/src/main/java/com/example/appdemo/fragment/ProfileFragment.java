@@ -34,6 +34,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.appdemo.R;
 import com.example.appdemo.activity.AuthenActivity;
 import com.example.appdemo.activity.CommentActivity;
+import com.example.appdemo.activity.UpdateCoverActivity;
 import com.example.appdemo.activity.UpdateProfileActivity;
 import com.example.appdemo.adapter.StatusAdapter;
 import com.example.appdemo.common.EditStatusDialog;
@@ -120,7 +121,8 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
         ivUpdateCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(), UpdateCoverActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -226,13 +228,11 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
                 } else {
                     Utils.showToast(getActivity(), "Post fail!");
                 }
-                refreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<Status> call, Throwable t) {
                 Utils.showToast(getActivity(), "No internet!");
-                refreshLayout.setRefreshing(false);
             }
         });
     }
@@ -260,7 +260,7 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == REQUEST_GET_IMAGE_CODE){
+        if(requestCode == REQUEST_PERMISSION_CODE){
             if(checkPermission(getActivity(), listPermissions)){
                 openGallery();
             }
@@ -325,7 +325,7 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_PICK);
         intent.setType("image/*");
-        startActivityForResult(intent, REQUEST_PERMISSION_CODE);
+        startActivityForResult(intent, REQUEST_GET_IMAGE_CODE);
     }
 
     private void gotoLogin() {
@@ -398,11 +398,13 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
                 } else {
                     Utils.showToast(getActivity(), "Fail!");
                 }
+                refreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<ProfileUser> call, Throwable t) {
                 Utils.showToast(getActivity(), "No Internet!");
+                refreshLayout.setRefreshing(false);
             }
         });
     }
@@ -430,7 +432,6 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
 
     @Override
     public void onLikeClick(Status status) {
-//        Log.d("bkhub", "Liked PROFILEFRAGMENT");
         likePost(status);
     }
 
@@ -446,7 +447,6 @@ public class ProfileFragment extends Fragment implements OnItemStatusClickListen
                     } else {
                         status.setNumberLike(status.getNumberLike() - 1);
                     }
-//                    statusProfileAdapter.notifyDataSetChanged();
                     statusAdapter.notifyDataSetChanged();
                 } else {
                     Utils.showToast(getActivity(), "Fail!");

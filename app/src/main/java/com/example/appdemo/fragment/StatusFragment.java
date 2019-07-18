@@ -23,6 +23,7 @@ import android.widget.ViewFlipper;
 import com.bumptech.glide.Glide;
 import com.example.appdemo.R;
 import com.example.appdemo.activity.CommentActivity;
+import com.example.appdemo.activity.CreatePostActivity;
 import com.example.appdemo.adapter.StatusAdapter;
 import com.example.appdemo.common.EditStatusDialog;
 import com.example.appdemo.dbcontext.RealmContext;
@@ -113,56 +114,62 @@ public class StatusFragment extends Fragment implements OnItemStatusClickListene
             }
         });
 
+//        tvPost.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                LayoutInflater inflater = getActivity().getLayoutInflater();
+//                View dialogView = inflater.inflate(R.layout.layout_dialog_post, null);
+//                builder.setView(dialogView);
+//                builder.setCancelable(false);
+//
+//                dialogAvatar = dialogView.findViewById(R.id.dialog_ava);
+//                edtPost = dialogView.findViewById(R.id.edt_post);
+//
+//                builder.setPositiveButton("Post", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        String content = edtPost.getText().toString();
+//                        if (content.isEmpty()) {
+//                            Utils.showToast(getActivity(), "You didn't input content to post!");
+//                        } else {
+//                            createPost(content);
+//                        }
+//                    }
+//                });
+//                builder.setNegativeButton("Cancel", null);
+//                AlertDialog alertDialog = builder.create();
+//                alertDialog.show();
+//            }
+//        });
         tvPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CreatePostActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.layout_dialog_post, null);
-                builder.setView(dialogView);
-                builder.setCancelable(false);
-
-                dialogAvatar = dialogView.findViewById(R.id.dialog_ava);
-                edtPost = dialogView.findViewById(R.id.edt_post);
-
-                builder.setPositiveButton("Post", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String content = edtPost.getText().toString();
-                        if (content.isEmpty()) {
-                            Utils.showToast(getActivity(), "You didn't input content to post!");
-                        } else {
-                            createPost(content);
-                        }
-                    }
-                });
-                builder.setNegativeButton("Cancel", null);
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+    private void createPost(String content) {
+        CreateStatusSendForm sendForm = new CreateStatusSendForm(user.getUserId(), content);
+        retrofitService.createPost(sendForm).enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                Status status = response.body();
+                if (response.code() == 200 && status != null) {
+                    statusList.add(0, status);
+                    statusAdapter.notifyDataSetChanged();
+                    edtPost.setText("");
+                } else {
+                    Utils.showToast(getActivity(), "Post fail!");
+                }
             }
 
-            private void createPost(String content) {
-                CreateStatusSendForm sendForm = new CreateStatusSendForm(user.getUserId(), content);
-                retrofitService.createPost(sendForm).enqueue(new Callback<Status>() {
-                    @Override
-                    public void onResponse(Call<Status> call, Response<Status> response) {
-                        Status status = response.body();
-                        if (response.code() == 200 && status != null) {
-                            statusList.add(0, status);
-                            statusAdapter.notifyDataSetChanged();
-                            edtPost.setText("");
-                        } else {
-                            Utils.showToast(getActivity(), "Post fail!");
-                        }
-                    }
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
 
-                    @Override
-                    public void onFailure(Call<Status> call, Throwable t) {
-
-                        Utils.showToast(getActivity(), "No internet!");
-                    }
-                });
+                Utils.showToast(getActivity(), "No internet!");
             }
         });
     }

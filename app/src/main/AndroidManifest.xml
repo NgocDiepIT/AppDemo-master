@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.UpdateCoverActivity"></activity>
+        <activity android:name=".activity.AddImageOnPostActivity"></activity>
+        <activity android:name=".activity.CreatePostActivity" />
+        <activity android:name=".activity.UpdateCoverActivity" />
         <activity android:name=".activity.UpdateProfileActivity" />
         <activity android:name=".activity.MemberOfGroupActivity" />
         <activity android:name=".activity.MessageByGroupActivity" />
